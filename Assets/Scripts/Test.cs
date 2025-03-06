@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-/*
+    /*
     // Tunable function curves
 
     // Branch structure
@@ -24,7 +24,7 @@ public class Test : MonoBehaviour
     [SerializeField] private AnimationCurve leafSpawnCurve;
     [SerializeField] private List<Vector3> leafBezierPoints;
     [SerializeField] private int leafSpawnMinimum;
-*/
+    */
 
 
     [SerializeField] private int randomSeed;
