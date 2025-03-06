@@ -1,0 +1,45 @@
+#pragma kernel AnimateLines
+
+struct LineData
+{
+    float3 startPos;
+    float3 endPos;
+    float startTime;
+    float drawDuration;
+    float lifetime;
+    float4 color;
+};
+
+// CPU sets these buffers
+StructuredBuffer<LineData> linesData;
+RWStructuredBuffer<float3> linePositions;
+RWStructuredBuffer<float4> lineColors;
+
+// Number of active lines
+int LineCount;
+
+// e.g. Unity Time.time
+float GlobalTime;
+
+[numthreads(64, 1, 1)]
+void AnimateLines(uint3 tid : SV_DispatchThreadID)
+{
+    int i = int(tid.x);
+    if (i >= LineCount) return;
+
+    // Get original line index from sorted list
+    LineData ld = linesData[i];
+
+    float elapsed = GlobalTime - ld.startTime;
+    float progress = saturate(elapsed / ld.drawDuration); // clamp to [0,1]
+
+    float3 currentEnd = lerp(ld.startPos, ld.endPos, progress);
+
+    // Set the positions
+    linePositions[2 * i + 0] = ld.startPos;
+    linePositions[2 * i + 1] = currentEnd;
+
+    // Set the color (both vertices share same color)
+    lineColors[2 * i + 0] = ld.color;
+    lineColors[2 * i + 1] = ld.color;
+}
