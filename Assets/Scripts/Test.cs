@@ -59,8 +59,9 @@ public class Test : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //DrawGround(20);
-        StartCoroutine(DrawTruffulaBall(20));
+        DrawGround(20);
+        //StartCoroutine(DrawTruffulaBall(20));
+        DrawAcacia();
     }
 
     // Update is called once per frame
